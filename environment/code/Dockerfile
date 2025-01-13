@@ -1,4 +1,4 @@
-FROM ghcr.io/marcelauliano/mitohifi-base:reviews
+FROM ghcr.io/jgnunes/mitohifi-condaupdate:master
 
 WORKDIR /opt
 
@@ -15,5 +15,4 @@ WORKDIR /tmp
 
 ENV CONDA_DIR=/opt/conda
 
-ENV PATH /opt/wrappers:/opt/cdhit/:/opt/hifiasm-0.16.1/:/opt/MitoHiFi/src/:/opt/MitoFinder/:/opt/minimap2-2.24_x64-linux/:${PATH}
-#create docker in main branch now
+ENV PATH=/opt/wrappers:/opt/cdhit/:/opt/hifiasm-0.16.1/:/opt/MitoHiFi/src/:/opt/MitoFinder/:/opt/minimap2-2.24_x64-linux/:${PATH}
