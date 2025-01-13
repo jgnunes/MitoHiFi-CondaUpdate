@@ -3,7 +3,6 @@ FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -qq -y update \
-    && apt-get -qq -y update \
     && apt-get -qq -y install \
     autoconf \
     automake \
@@ -30,7 +29,7 @@ WORKDIR /opt
 
 # /opt/minimap2-2.24_x64-linux
 RUN curl -L https://github.com/lh3/minimap2/releases/download/v2.24/minimap2-2.24_x64-linux.tar.bz2 \
-    | tar -jxvf -
+    | tar -jxvf  - --no-same-owner
 
 # /opt/hifiasm-0.16.1
 RUN curl -L https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz \
@@ -61,13 +60,13 @@ RUN chmod -R 755 /opt/wrappers
 
 ARG CONDA_DIR=/opt/conda
 
-RUN wget -P /usr/local/src https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && bash /usr/local/src/Miniconda3-latest-Linux-x86_64.sh -b -p $CONDA_DIR \
-    && $CONDA_DIR/bin/conda update -n base -c defaults conda -y \
-    && $CONDA_DIR/bin/conda install -n base conda-libmamba-solver
+RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" \
+    && bash Miniforge3-$(uname)-$(uname -m).sh -bfp $CONDA_DIR \
+    && rm -rf Miniforge3-$(uname)-$(uname -m).sh
+
 
 RUN $CONDA_DIR/bin/conda create -n mitos_env -c bioconda -c conda-forge mitos=2.1.0 "r-base>4"
-RUN $CONDA_DIR/bin/conda create -n mitofinder_env --experimental-solver=libmamba python=2.7
+RUN $CONDA_DIR/bin/conda create -n mitofinder_env python=2.7
 
 RUN $CONDA_DIR/bin/conda clean -a
 
