@@ -1,7 +1,5 @@
 FROM ubuntu:24.04
 
-FROM ubuntu:24.04
-
 # Non-interactive mode for APT
 ENV DEBIAN_FRONTEND=noninteractive
 
