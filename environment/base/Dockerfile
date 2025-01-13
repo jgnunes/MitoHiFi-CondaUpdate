@@ -1,31 +1,18 @@
 FROM ubuntu:24.04
 
-# Evita interação com o apt-get
+FROM ubuntu:24.04
+
+# Non-interactive mode for APT
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Atualiza e instala dependências base, incluindo Python 3.11
-RUN apt-get update -qq && apt-get install -y -qq \
-    autoconf \
-    automake \
-    apt-utils \
-    bedtools \
-    build-essential \
-    curl \
-    default-jre \
-    git \
-    infernal \
-    libopenjp2-7 \
-    libtiff5 \
-    libz-dev \
-    mafft \
-    ncbi-blast+ \
-    python3.11 \
-    python3.11-venv \
-    python3.11-distutils \
-    python3.11-dev \
-    samtools \
-    wget \
-    vim \
+# Add necessary repositories and install dependencies
+RUN apt-get update -qq && apt-get install -y -qq software-properties-common \
+    && add-apt-repository -y ppa:deadsnakes/ppa \
+    && apt-get update -qq && apt-get install -y -qq \
+    autoconf automake apt-utils bedtools build-essential \
+    curl default-jre git infernal libopenjp2-7 libz-dev \
+    libtiff-dev mafft ncbi-blast+ python3.11 python3.11-venv \
+    python3.11-distutils python3.11-dev samtools wget vim \
     && rm -rf /var/lib/apt/lists/*
 
 # Ajustar o Python3 padrão para apontar para o Python3.11
