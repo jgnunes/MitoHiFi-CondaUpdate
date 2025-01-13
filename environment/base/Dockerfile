@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 # Evita interação com o apt-get
 ENV DEBIAN_FRONTEND=noninteractive
@@ -7,6 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq && apt-get install -y -qq \
     autoconf \
     automake \
+    apt-utils \
     bedtools \
     build-essential \
     curl \
