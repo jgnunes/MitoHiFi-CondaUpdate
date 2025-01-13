@@ -51,6 +51,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true
+          build-args: PROGRESS=plain
 
       - name: Image digest
         run: echo ${{ steps.build-and-push.outputs.digest }}
