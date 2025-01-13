@@ -63,6 +63,7 @@ ARG CONDA_DIR=/opt/conda
 
 RUN wget -P /usr/local/src https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
     && bash /usr/local/src/Miniconda3-latest-Linux-x86_64.sh -b -p $CONDA_DIR \
+    && RUN $CONDA_DIR/bin/conda update -n base -c defaults conda -y
     && $CONDA_DIR/bin/conda install -n base conda-libmamba-solver
 
 RUN $CONDA_DIR/bin/conda create -n mitos_env -c bioconda -c conda-forge mitos=2.1.0 "r-base>4"
