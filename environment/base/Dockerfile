@@ -28,8 +28,10 @@ RUN apt-get -qq -y update \
 # Verify Apptainer installation
 RUN apptainer --version
 
-# Pull the MitoFinder image
-RUN apptainer pull --arch amd64 /opt/mitofinder_v1.4.2.sif library://remiallio/default/mitofinder:v1.4.2
+# Configure Apptainer library endpoint and pull the target image
+RUN apptainer remote add --no-login library https://library.apptainer.org \
+    && apptainer remote use library \
+    && apptainer pull --arch amd64 /opt/mitofinder_v1.4.2.sif library://remiallio/default/mitofinder:v1.4.2
 
 # Create wrapper script for MitoFinder
 RUN echo '#!/bin/bash\napptainer exec /opt/mitofinder_v1.4.2.sif mitofinder "$@"' > /usr/bin/mitofinder \
