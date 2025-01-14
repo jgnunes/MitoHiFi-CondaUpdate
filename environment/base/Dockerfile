@@ -21,6 +21,7 @@ RUN apt-get -qq -y update \
     libopenjp2-7 \
     libtiff5 \
     libz-dev \
+    singularity-container \
     mafft \
     ncbi-blast+ \
     samtools \
@@ -46,12 +47,6 @@ RUN curl -L https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz
     && cd hifiasm-0.16.1 \
     && make
 
-RUN git clone https://github.com/RemiAllio/MitoFinder.git \
-    && cd MitoFinder \
-    && ./install.sh \
-    && sed -i 's/\/usr\/bin\/python/\/usr\/bin\/env python/' mitofinder
-RUN chmod -R 755 /opt/MitoFinder
-
 RUN git clone https://github.com/weizhongli/cdhit.git \
     && cd cdhit \
     && make MAX_SEQ=10000000
@@ -59,9 +54,15 @@ RUN git clone https://github.com/weizhongli/cdhit.git \
 RUN mkdir -p /opt/wrappers
 
 COPY mitos_wrapper.sh /opt/wrappers/runmitos.py
-COPY mitofinder_wrapper.sh /opt/wrappers/mitofinder
 
 RUN chmod -R 755 /opt/wrappers
+
+# Pull the MitoFinder Singularity image
+RUN singularity pull --arch amd64 /opt/mitofinder_v1.4.2.sif library://remiallio/default/mitofinder:v1.4.2
+
+# Create a wrapper script for MitoFinder
+RUN echo '#!/bin/bash\nsingularity exec /opt/mitofinder_v1.4.2.sif mitofinder "$@"' > /usr/bin/mitofinder \
+    && chmod +x /usr/bin/mitofinder
 
 ARG CONDA_DIR=/opt/conda
 
@@ -70,7 +71,6 @@ RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/downloa
     && rm -rf Miniforge3-$(uname)-$(uname -m).sh
 
 RUN $CONDA_DIR/bin/conda create -n mitos_env -c bioconda -c conda-forge mitos=2.1.0 "r-base>4"
-RUN $CONDA_DIR/bin/conda create -n mitofinder_env python=2.7
 
 RUN $CONDA_DIR/bin/conda clean -a
 
