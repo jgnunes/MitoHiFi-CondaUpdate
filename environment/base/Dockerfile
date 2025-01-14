@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -7,9 +7,9 @@ RUN apt-get -qq -y update \
     software-properties-common \
     && add-apt-repository ppa:deadsnakes/ppa \
     && apt-get -qq -y install \
-    python3.11 \
-    python3.11-dev \
-    python3.11-venv \
+    python3.13 \
+    python3.13-dev \
+    python3.13-venv \
     autoconf \
     automake \
     bedtools \
@@ -29,11 +29,11 @@ RUN apt-get -qq -y update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Update alternatives to use python3.11 as default
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 \
-    && update-alternatives --set python3 /usr/bin/python3.11
+# Update alternatives to use python3.13 as default
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 1 \
+    && update-alternatives --set python3 /usr/bin/python3.13
 
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.13
 
 WORKDIR /opt
 
