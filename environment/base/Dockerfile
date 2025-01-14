@@ -86,9 +86,6 @@ RUN singularity pull --arch amd64 /opt/mitofinder_v1.4.2.sif library://remiallio
 RUN echo '#!/bin/bash\nsingularity exec /opt/mitofinder_v1.4.2.sif mitofinder "$@"' > /usr/bin/mitofinder \
     && chmod +x /usr/bin/mitofinder
 
-# Test mitofinder
-RUN mitofinder -h
-
 ARG CONDA_DIR=/opt/conda
 
 RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" \
