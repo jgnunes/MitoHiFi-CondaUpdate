@@ -52,7 +52,7 @@ RUN apt-get -qq -y update \
     && export PATH=$PATH:/usr/local/go/bin \
     && git clone https://github.com/apptainer/singularity.git \
     && cd singularity \
-    && git checkout v3.11.1 \
+    && git checkout v3.8.7 \
     && ./mconfig \
     && make -C builddir \
     && make -C builddir install \
