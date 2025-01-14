@@ -2,6 +2,40 @@ FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Install Apptainer
+RUN apt-get -qq -y update \
+    && apt-get -qq -y install \
+    build-essential \
+    uuid-dev \
+    libgpgme-dev \
+    squashfs-tools \
+    libseccomp-dev \
+    wget \
+    pkg-config \
+    git \
+    && cd /tmp \
+    && wget https://go.dev/dl/go1.20.5.linux-amd64.tar.gz \
+    && tar -C /usr/local -xzf go1.20.5.linux-amd64.tar.gz \
+    && export PATH=$PATH:/usr/local/go/bin \
+    && git clone https://github.com/apptainer/apptainer.git \
+    && cd apptainer \
+    && git checkout v1.1.7 \
+    && ./mconfig \
+    && make -C builddir \
+    && make -C builddir install \
+    && rm -rf /tmp/*
+
+# Verify Apptainer installation
+RUN apptainer --version
+
+# Pull the MitoFinder image
+RUN apptainer pull --arch amd64 /opt/mitofinder_v1.4.2.sif library://remiallio/default/mitofinder:v1.4.2
+
+# Create wrapper script for MitoFinder
+RUN echo '#!/bin/bash\napptainer exec /opt/mitofinder_v1.4.2.sif mitofinder "$@"' > /usr/bin/mitofinder \
+    && chmod +x /usr/bin/mitofinder
+
+# Install required software
 RUN apt-get -qq -y update \
     && apt-get -qq -y install \
     software-properties-common \
@@ -35,29 +69,6 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 1
 
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.13
 
-# Instalar Singularity a partir do código-fonte
-RUN apt-get -qq -y update \
-    && apt-get -qq -y install \
-    build-essential \
-    uuid-dev \
-    libgpgme-dev \
-    squashfs-tools \
-    libseccomp-dev \
-    wget \
-    pkg-config \
-    git \
-    && cd /tmp \
-    && wget https://go.dev/dl/go1.20.5.linux-amd64.tar.gz \
-    && tar -C /usr/local -xzf go1.20.5.linux-amd64.tar.gz \
-    && export PATH=$PATH:/usr/local/go/bin \
-    && git clone https://github.com/apptainer/singularity.git \
-    && cd singularity \
-    && git checkout v3.8.7 \
-    && ./mconfig \
-    && make -C builddir \
-    && make -C builddir install \
-    && rm -rf /tmp/*
-
 WORKDIR /opt
 
 # Install other software and dependencies (minimap2, hifiasm, MitoFinder, etc.)
@@ -78,13 +89,6 @@ RUN mkdir -p /opt/wrappers
 COPY mitos_wrapper.sh /opt/wrappers/runmitos.py
 
 RUN chmod -R 755 /opt/wrappers
-
-# Pull the MitoFinder Singularity image
-RUN singularity pull --arch amd64 /opt/mitofinder_v1.4.2.sif library://remiallio/default/mitofinder:v1.4.2
-
-# Create a wrapper script for MitoFinder
-RUN echo '#!/bin/bash\nsingularity exec /opt/mitofinder_v1.4.2.sif mitofinder "$@"' > /usr/bin/mitofinder \
-    && chmod +x /usr/bin/mitofinder
 
 ARG CONDA_DIR=/opt/conda
 
