@@ -15,7 +15,7 @@ jobs:
       
       - name: Run integration test_contigs with Docker
         run: |
-          docker run --name test_contigs \
+          docker run --privileged --name test_contigs \
           ghcr.io/jgnunes/mitohifi-condaupdate:master \
             python3.13 /opt/MitoHiFi/src/mitohifi.py \
             -c /opt/MitoHiFi/tests/ilPhaBuce1_contig.fa \
