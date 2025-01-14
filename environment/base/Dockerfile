@@ -19,7 +19,7 @@ RUN apt-get -qq -y update \
     && export PATH=$PATH:/usr/local/go/bin \
     && git clone https://github.com/apptainer/apptainer.git \
     && cd apptainer \
-    && git checkout v1.1.7 \
+    && git checkout v1.3.6 \
     && ./mconfig \
     && make -C builddir \
     && make -C builddir install \
