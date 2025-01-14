@@ -20,7 +20,7 @@ RUN apt-get -qq -y update \
     && git clone https://github.com/apptainer/apptainer.git \
     && cd apptainer \
     && git checkout v1.3.6 \
-    && ./mconfig \
+    && ./mconfig --prefix=/usr/local --with-suid \
     && make -C builddir \
     && make -C builddir install \
     && rm -rf /tmp/*
