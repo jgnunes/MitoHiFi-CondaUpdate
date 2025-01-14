@@ -1,4 +1,4 @@
-FROM ghcr.io/jgnunes/mitohifi-condaupdate:master
+FROM ghcr.io/jgnunes/mitohifi-condaupdate-base:master
 
 WORKDIR /opt
 
