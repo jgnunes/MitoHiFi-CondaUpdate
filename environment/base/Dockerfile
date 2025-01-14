@@ -14,8 +14,8 @@ RUN apt-get -qq -y update \
     pkg-config \
     git \
     && cd /tmp \
-    && wget https://go.dev/dl/go1.20.5.linux-amd64.tar.gz \
-    && tar -C /usr/local -xzf go1.20.5.linux-amd64.tar.gz \
+    && wget https://go.dev/dl/go1.21.1.linux-amd64.tar.gz \
+    && tar -C /usr/local -xzf go1.21.1.linux-amd64.tar.gz \
     && export PATH=$PATH:/usr/local/go/bin \
     && git clone https://github.com/apptainer/apptainer.git \
     && cd apptainer \
