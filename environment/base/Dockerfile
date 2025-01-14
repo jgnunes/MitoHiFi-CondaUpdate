@@ -53,7 +53,7 @@ RUN apt-get -qq -y update \
     && git clone https://github.com/apptainer/singularity.git \
     && cd singularity \
     && git checkout v3.8.7 \
-    && ./mconfig --prefix=/usr/local --with-suid \
+    && ./mconfig --prefix=/usr/local \
     && make -C builddir \
     && make -C builddir install \
     && rm -rf /tmp/*
