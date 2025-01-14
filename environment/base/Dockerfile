@@ -21,7 +21,6 @@ RUN apt-get -qq -y update \
     libopenjp2-7 \
     libtiff5 \
     libz-dev \
-    singularity-container \
     mafft \
     ncbi-blast+ \
     samtools \
@@ -35,6 +34,29 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 1
     && update-alternatives --set python3 /usr/bin/python3.13
 
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.13
+
+# Instalar Singularity a partir do código-fonte
+RUN apt-get -qq -y update \
+    && apt-get -qq -y install \
+    build-essential \
+    uuid-dev \
+    libgpgme-dev \
+    squashfs-tools \
+    libseccomp-dev \
+    wget \
+    pkg-config \
+    git \
+    && cd /tmp \
+    && wget https://go.dev/dl/go1.20.5.linux-amd64.tar.gz \
+    && tar -C /usr/local -xzf go1.20.5.linux-amd64.tar.gz \
+    && export PATH=$PATH:/usr/local/go/bin \
+    && git clone https://github.com/apptainer/singularity.git \
+    && cd singularity \
+    && git checkout v3.11.1 \
+    && ./mconfig \
+    && make -C builddir \
+    && make -C builddir install \
+    && rm -rf /tmp/*
 
 WORKDIR /opt
 
