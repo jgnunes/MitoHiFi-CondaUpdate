@@ -22,7 +22,6 @@ jobs:
             -f /opt/MitoHiFi/tests/NC_016067.1.fasta \
             -g /opt/MitoHiFi/tests/NC_016067.1.gb \
             -o 5 \
-            --mitos \
             -t 1
       - name: compare_contigs
         run: |
