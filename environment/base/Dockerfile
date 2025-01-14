@@ -56,6 +56,7 @@ RUN apt-get -qq -y update \
     && ./mconfig --prefix=/usr/local \
     && make -C builddir \
     && make -C builddir install \
+    && chmod u+s /usr/local/bin/singularity \
     && rm -rf /tmp/*
 
 WORKDIR /opt
