@@ -84,8 +84,8 @@ RUN curl -L https://zenodo.org/record/4284483/files/refseq89m.tar.bz2?download=1
 WORKDIR /opt
 
 # Install updated Python packages
-RUN pip3 --no-cache-dir install --upgrade pip \
-    && pip3 --no-cache-dir install six biopython>=1.80 \
+RUN python3.13 -m pip install --no-cache-dir --upgrade pip \
+    && python3.13 -m pip install --no-cache-dir six biopython>=1.80 \
     pandas \
     Pillow \
     matplotlib \
