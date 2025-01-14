@@ -85,7 +85,7 @@ WORKDIR /opt
 
 # Install updated Python packages
 RUN pip3 --no-cache-dir install --upgrade pip \
-    && pip3 --no-cache-dir install biopython>=1.80 \
+    && pip3 --no-cache-dir install six biopython>=1.80 \
     pandas \
     Pillow \
     matplotlib \
