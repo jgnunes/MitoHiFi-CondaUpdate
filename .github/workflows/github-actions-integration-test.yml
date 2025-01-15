@@ -18,6 +18,12 @@ jobs:
           ghcr.io/jgnunes/mitohifi-condaupdate:master \
           mitofinder -h
 
+      - name: Check Runner supports privileged containers
+        run: |
+          docker run --privileged --name check_privileged_containers \
+          ghcr.io/jgnunes/mitohifi-condaupdate:master \
+          singularity exec /opt/mitofinder_v1.4.2.sif true
+          
       - name: Run integration test_contigs (MITOS) with Docker
         run: |
           docker run --privileged --name test_contigs_mitos \
