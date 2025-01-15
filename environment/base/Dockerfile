@@ -23,6 +23,7 @@ RUN apt-get -qq -y update \
     libz-dev \
     libncurses5-dev \
     libbz2-dev \
+    liblzma-dev \
     mafft \
     ncbi-blast+ \
     wget \
