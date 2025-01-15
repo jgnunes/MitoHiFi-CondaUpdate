@@ -23,6 +23,23 @@ jobs:
           docker run --privileged --name samtools_version_Marcela \
           ghcr.io/marcelauliano/mitohifi:master \
           samtools --version
+          
+      - name: Run integration test_reads with Docker
+        run: |
+          docker run --name test_reads \
+          ghcr.io/jgnunes/mitohifi-condaupdate:master \
+            mitohifi.py \
+            -r /opt/MitoHiFi/tests/ilDeiPorc1.reads.100.fa \
+            -f /opt/MitoHiFi/tests/MW539688.1.fasta \
+            -g /opt/MitoHiFi/tests/MW539688.1.gb \
+            --mitos \
+            -o 5 \
+            -t 1
+            
+      - name: compare_reads
+        run: |
+          docker cp test_reads:/tmp/final_mitogenome.fasta ./
+          cmp tests/ilDeiPorc1.final_mitogenome.fasta final_mitogenome.fasta && echo 'SUCCESS READS & MITOS'
 
       - name: Run integration test_contigs (MitoFinder) with Docker
         run: |
@@ -52,18 +69,3 @@ jobs:
           docker cp test_contigs_mitofinder:/tmp/final_mitogenome.gb ./
           cmp tests/ilPhaBuce1_final_mitogenome.gb final_mitogenome.gb && echo 'SUCCESS CONTIGS'
       
-      - name: Run integration test_reads with Docker
-        run: |
-          docker run --name test_reads \
-          ghcr.io/jgnunes/mitohifi-condaupdate:master \
-            mitohifi.py \
-            -r /opt/MitoHiFi/tests/ilDeiPorc1.reads.100.fa \
-            -f /opt/MitoHiFi/tests/MW539688.1.fasta \
-            -g /opt/MitoHiFi/tests/MW539688.1.gb \
-            --mitos \
-            -o 5 \
-            -t 1
-      - name: compare_reads
-        run: |
-          docker cp test_reads:/tmp/final_mitogenome.fasta ./
-          cmp tests/ilDeiPorc1.final_mitogenome.fasta final_mitogenome.fasta && echo 'SUCCESS READS & MITOS'
