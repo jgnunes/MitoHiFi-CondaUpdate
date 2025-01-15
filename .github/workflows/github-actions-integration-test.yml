@@ -12,7 +12,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      
+      - name: Run integration mitofinder with Docker
+        run: |
+          docker run --privileged --name test_mitofinder \
+          ghcr.io/jgnunes/mitohifi-condaupdate:master \
+            mitofinder -h 
+    
       - name: Run integration test_contigs with Docker
         run: |
           docker run --privileged --name test_contigs \
