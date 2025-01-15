@@ -22,6 +22,7 @@ RUN apt-get -qq -y update \
     libtiff5 \
     libz-dev \
     libncurses5-dev \
+    libbz2-dev \
     mafft \
     ncbi-blast+ \
     wget \
