@@ -16,12 +16,7 @@ jobs:
         run: |
           docker run --privileged --name test_mitofinder \
           ghcr.io/jgnunes/mitohifi-condaupdate:master \
-          singularity run /opt/mitofinder_v1.4.2.sif \
-          -j ilPhaBuce1 \
-          -a /opt/MitoHiFi/tests/ilPhaBuce1_contig.fa \
-          -r /opt/MitoHiFi/tests/NC_016067.1.gb \
-          -o 5 \
-          --max-contig-size 100000 \
+          singularity run /opt/mitofinder_v1.4.2.sif -h
 
       - name: Run integration test_contigs with Docker
         run: |
