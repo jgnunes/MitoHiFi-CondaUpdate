@@ -2,7 +2,7 @@ FROM ghcr.io/jgnunes/mitohifi-condaupdate-base:master
 
 WORKDIR /opt
 
-RUN echo '#!/bin/bash\nsingularity exec --bind /opt:/opt /opt/mitofinder_v1.4.2.sif "$@"' > /usr/bin/mitofinder \
+RUN echo '#!/bin/bash\nsingularity run --bind /opt/MitoHiFi/tests:/opt/MitoHiFi/tests /opt/mitofinder_v1.4.2.sif "$@"' > /usr/bin/mitofinder \
     && chmod +x /usr/bin/mitofinder
 
 # /opt/MitoHiFi
