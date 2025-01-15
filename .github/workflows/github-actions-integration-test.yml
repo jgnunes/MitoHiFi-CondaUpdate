@@ -12,6 +12,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Check samtools version (Joao)
+        run: |
+          docker run --privileged --name samtools_version_Joao \
+          ghcr.io/jgnunes/mitohifi-condaupdate:master \
+          samtools --version
+
+      - name: Check samtools version (Marcela)
+        run: |
+          docker run --privileged --name samtools_version_Marcela \
+          ghcr.io/marcelauliano/mitohifi:master \
+          samtools --version
+
       - name: Run integration test_contigs (MitoFinder) with Docker
         run: |
           docker run --privileged --name test_contigs_mitofinder \
