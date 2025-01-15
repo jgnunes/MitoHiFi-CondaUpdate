@@ -16,19 +16,32 @@ jobs:
         run: |
           docker run --privileged --name test_mitofinder \
           ghcr.io/jgnunes/mitohifi-condaupdate:master \
-          singularity run /opt/mitofinder_v1.4.2.sif -h
+          mitofinder -h
 
-      - name: Run integration test_contigs with Docker
+      - name: Run integration test_contigs (MITOS) with Docker
         run: |
           docker run --privileged --name test_contigs \
           ghcr.io/jgnunes/mitohifi-condaupdate:master \
             mitohifi.py \
-            -r /opt/MitoHiFi/tests/ilDeiPorc1.reads.100.fa \
-            -f /opt/MitoHiFi/tests/MW539688.1.fasta \
-            -g /opt/MitoHiFi/tests/MW539688.1.gb \
+            -c /opt/MitoHiFi/tests/ilPhaBuce1_contig.fa \
+            -f /opt/MitoHiFi/tests/NC_016067.1.fasta \
+            -g /opt/MitoHiFi/tests/NC_016067.1.gb \
+            --mitos \
             -o 5 \
             -t 1
-            
+      
+      - name: Run integration test_contigs (MitoFinder) with Docker
+        run: |
+          docker run --privileged --name test_contigs \
+          ghcr.io/jgnunes/mitohifi-condaupdate:master \
+            mitohifi.py \
+            -c /opt/MitoHiFi/tests/ilPhaBuce1_contig.fa \
+            -f /opt/MitoHiFi/tests/NC_016067.1.fasta \
+            -g /opt/MitoHiFi/tests/NC_016067.1.gb \
+            --mitos \
+            -o 5 \
+            -t 1
+
       - name: compare_contigs
         run: |
           docker cp test_contigs:/tmp/final_mitogenome.gb ./
