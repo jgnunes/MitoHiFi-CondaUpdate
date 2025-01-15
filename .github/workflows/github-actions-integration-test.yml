@@ -11,12 +11,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
 
-      - name: Check if File existis in the container
+      - name: Run integration test_contigs (MitoFinder) with Docker
         run: |
-          docker run --privileged ghcr.io/jgnunes/mitohifi-condaupdate:master  \
-          ls -l /opt/MitoHiFi/tests/NC_016067.1.gb \
+          docker run --privileged --name test_contigs_mitofinder -w /opt/MitoHiFi/tests \
+          ghcr.io/jgnunes/mitohifi-condaupdate:master \
+            mitohifi.py \
+            -c ilPhaBuce1_contig.fa \
+            -f NC_016067.1.fasta \
+            -g NC_016067.1.gb \
+            -o 5 \
+            -t 1
           
       - name: Run integration test_contigs (MITOS) with Docker
         run: |
@@ -30,20 +35,9 @@ jobs:
             -o 5 \
             -t 1
       
-      - name: Run integration test_contigs (MitoFinder) with Docker
-        run: |
-          docker run --privileged --name test_contigs_mitofinder \
-          ghcr.io/jgnunes/mitohifi-condaupdate:master \
-            mitohifi.py \
-            -c /opt/MitoHiFi/tests/ilPhaBuce1_contig.fa \
-            -f /opt/MitoHiFi/tests/NC_016067.1.fasta \
-            -g /opt/MitoHiFi/tests/NC_016067.1.gb \
-            -o 5 \
-            -t 1
-
       - name: compare_contigs
         run: |
-          docker cp test_contigs:/tmp/final_mitogenome.gb ./
+          docker cp test_contigs_mitofinder:/tmp/final_mitogenome.gb ./
           cmp tests/ilPhaBuce1_final_mitogenome.gb final_mitogenome.gb && echo 'SUCCESS CONTIGS'
       
       - name: Run integration test_reads with Docker
