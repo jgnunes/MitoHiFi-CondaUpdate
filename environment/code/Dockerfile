@@ -8,6 +8,7 @@ RUN git clone https://github.com/marcelauliano/MitoHiFi.git \
     && chmod +x *.py \
     && sed -i '1i#!/usr/bin/env python3' mitohifi.py findFrameShifts.py fixContigHeaders.py \
     && sed -i '1 s/python\>/python3/' *.py \
+    && sed -i 's/(mitofinder_cmd, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)/(mitofinder_cmd)/' parallel_annotation.py \
     && sed -i 's/"python2",\s//' parallel_annotation_mitos.py \
     && sed -i 's/MITOS\/data/\/opt\/databases/' parallel_annotation_mitos.py
 
