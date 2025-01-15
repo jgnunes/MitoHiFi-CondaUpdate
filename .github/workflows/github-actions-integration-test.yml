@@ -22,10 +22,10 @@ jobs:
         run: |
           docker run --privileged --name test_contigs \
           ghcr.io/jgnunes/mitohifi-condaupdate:master \
-            python3.13 /opt/MitoHiFi/src/mitohifi.py \
-            -c /opt/MitoHiFi/tests/ilPhaBuce1_contig.fa \
-            -f /opt/MitoHiFi/tests/NC_016067.1.fasta \
-            -g /opt/MitoHiFi/tests/NC_016067.1.gb \
+            mitohifi.py \
+            -r /opt/MitoHiFi/tests/ilDeiPorc1.reads.100.fa \
+            -f /opt/MitoHiFi/tests/MW539688.1.fasta \
+            -g /opt/MitoHiFi/tests/MW539688.1.gb \
             -o 5 \
             -t 1
             
