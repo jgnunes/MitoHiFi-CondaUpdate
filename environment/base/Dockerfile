@@ -21,6 +21,7 @@ RUN apt-get -qq -y update \
     libopenjp2-7 \
     libtiff5 \
     libz-dev \
+    libncurses5-dev \
     mafft \
     ncbi-blast+ \
     wget \
