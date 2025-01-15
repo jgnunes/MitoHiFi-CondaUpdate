@@ -84,7 +84,7 @@ RUN chmod -R 755 /opt/wrappers
 RUN singularity pull --arch amd64 /opt/mitofinder_v1.4.2.sif library://remiallio/default/mitofinder:v1.4.2
 
 # Create a wrapper script for MitoFinder
-RUN echo '#!/bin/bash\nsingularity exec /opt/mitofinder_v1.4.2.sif mitofinder "$@"' > /usr/bin/mitofinder \
+RUN echo '#!/bin/bash\nsingularity run /opt/mitofinder_v1.4.2.sif "$@"' > /usr/bin/mitofinder \
     && chmod +x /usr/bin/mitofinder
 
 ARG CONDA_DIR=/opt/conda
