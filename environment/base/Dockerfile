@@ -23,9 +23,20 @@ RUN apt-get -qq -y update \
     libz-dev \
     mafft \
     ncbi-blast+ \
-    samtools \
     wget \
     vim \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install samtools 1.7
+RUN curl -L -o samtools-1.7.tar.bz2 https://github.com/samtools/samtools/releases/download/1.7/samtools-1.7.tar.bz2 \
+    && tar -xjf samtools-1.7.tar.bz2 \
+    && cd samtools-1.7 \
+    && ./configure --prefix=/usr/local \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -rf samtools-1.7 samtools-1.7.tar.bz2 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
