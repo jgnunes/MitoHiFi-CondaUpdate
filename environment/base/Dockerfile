@@ -124,9 +124,3 @@ WORKDIR /opt
 RUN python3.13 -m pip install --no-cache-dir --upgrade pip \
     && python3.13 -m pip install --no-cache-dir --force-reinstall six python-dateutil biopython>=1.80 pandas \
     Pillow matplotlib entrezpy dna_features_viewer bcbio-gff
-
-# Debug to validate installation
-RUN python3.13 -c "import sys; print(sys.path)" \
-    && python3.13 -c "import six; print(six.__file__)" \
-    && python3.13 -c "import dateutil; print(dateutil.__file__)" \
-    && python3.13 -c "import Bio; print(Bio.__file__)"
