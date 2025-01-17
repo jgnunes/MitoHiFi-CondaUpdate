@@ -31,7 +31,7 @@ jobs:
 
       - name: Run integration test_contigs (MitoFinder) with Docker
         run: |
-          docker run --name test_contigs_mitofinder \
+          docker run --privileged --name test_contigs_mitofinder \
           ghcr.io/jgnunes/mitohifi-condaupdate:master \
             mitohifi.py \
             -c /opt/MitoHiFi/tests/ilPhaBuce1_contig.fa \
@@ -42,7 +42,7 @@ jobs:
           
       - name: Run integration test_contigs (MITOS) with Docker
         run: |
-          docker run --name test_contigs_mitos \
+          docker run --privileged --name test_contigs_mitos \
           ghcr.io/jgnunes/mitohifi-condaupdate:master \
             mitohifi.py \
             -c /opt/MitoHiFi/tests/ilPhaBuce1_contig.fa \
